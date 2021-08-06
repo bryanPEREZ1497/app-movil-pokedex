@@ -1,27 +1,15 @@
 import React from 'react';
-import { StatusBar } from "expo-status-bar";
-import Local from './explorar/Local';
 import { Text, Image, View, StyleSheet, FlatList, TextInput, Button } from 'react-native';
 
-const App = () => {
-  return <Local />;
-}
-export default App;
 
-class Other extends React.Component {
-
+export default class App extends React.Component {
   constructor(props) {
-
     super(props);
-
     this.state = {
       pokemon: [],
       busqueda: ''
     }
-
   }
-
-
   handleOnChange = e => {
     this.setState({ busqueda: e.target.value });
   }
@@ -97,15 +85,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
 
-    padding: 7
-  },
-  btn: {
-    width: 150,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#00d4ff',
-    borderRadius: 40,
     padding: 7
   }
 });

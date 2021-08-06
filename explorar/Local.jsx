@@ -6,49 +6,43 @@ const localesMock = [
     {
         nombre: 'AASDASD',
         telefono: '3323243',
-        imagen: 'https://picsum.photos/200',
         categoria: 'SADFSDF',
         id: 'ASDF'
     },
     {
         nombre: 'FGHFGH',
         telefono: '6767',
-        imagen: 'https://picsum.photos/200',
         categoria: 'GHGH',
         id: '4334SD'
     },
     {
         nombre: 'SDFSFRE',
         telefono: '776767',
-        imagen: 'https://picsum.photos/200',
         categoria: 'DFGDFGY6',
         id: '435GGGT45'
     },
     {
         nombre: 'AASDASD',
         telefono: '3323243',
-        imagen: 'https://picsum.photos/200',
         categoria: 'SADFSDF',
         id: '332ASDF'
     },
     {
         nombre: 'FGHFGH',
         telefono: '6767',
-        imagen: 'https://picsum.photos/200',
         categoria: 'GHGH',
         id: '43323234SD'
     },
     {
         nombre: 'SDFSFRE',
         telefono: '776767',
-        imagen: 'https://picsum.photos/200',
         categoria: 'DFGDFGY6',
         id: '435GGGT233245'
     }
 ];
 const Local = (props) => {
     const [locales, setLocales] = useState(localesMock);
-
+    console.log(props.route.params)
     return (
         <View style={styles.container}>
             <ScrollView>
@@ -59,6 +53,7 @@ const Local = (props) => {
                             bottomDivider
                             onPress={() => {
                                 console.log(local)
+                                props.navigation.navigate('Comida', { local })
                             }}
                         >
                             <ListItem.Chevron />

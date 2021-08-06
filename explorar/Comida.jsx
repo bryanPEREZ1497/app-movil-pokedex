@@ -1,51 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-const localesMock = [
+const menuMock = [
     {
         nombre: 'AASDASD',
         categoria: 'SADFSDF',
         precio: 12,
-        id: 'ASDF'
+        id: 'ASDF',
+        descripcion: 'Hamburguesa de queso'
     },
     {
         nombre: 'FGHFGH',
         categoria: 'GHGH',
         id: '4334SD',
         precio: 12,
+        descripcion: 'Hamburguesa de queso'
     },
     {
         nombre: 'SDFSFRE',
         precio: 12,
-
         categoria: 'DFGDFGY6',
-        id: '435GGGT45'
+        id: '435GGGT45',
+        descripcion: 'Hamburguesa de queso'
     },
     {
         nombre: 'AASDASD',
         precio: 12,
-
         categoria: 'SADFSDF',
-        id: '332ASDF'
+        id: '332ASDF',
+        descripcion: 'Hamburguesa de queso'
     },
     {
         nombre: 'FGHFGH',
         precio: 12,
-
         categoria: 'GHGH',
-        id: '43323234SD'
+        id: '43323234SD',
+        descripcion: 'Hamburguesa de queso'
     },
     {
         nombre: 'SDFSFRE',
         precio: 12,
-
         categoria: 'DFGDFGY6',
-        id: '435GGGT233245'
+        id: '435GGGT233245',
+        descripcion: 'Hamburguesa de queso'
     }
 ];
-export default () => {
-    const [menu, setMenu] = useState(menuMock)
+export default (props) => {
+    const { local } = props.route.params;
+    const [menu, setMenu] = useState([])
+    useEffect(() => {
+        console.log(local)
+        setMenu(menuMock)
+
+    }, [])
     return (
 
         <View style={styles.container}>
@@ -57,6 +65,7 @@ export default () => {
                             bottomDivider
                             onPress={() => {
                                 console.log(item)
+                                props.navigation.navigate('Detalles', { item })
                             }}
                         >
                             <ListItem.Chevron />

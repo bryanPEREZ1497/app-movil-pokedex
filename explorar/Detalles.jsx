@@ -1,101 +1,66 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, Image, TextInput, StyleSheet } from "react-native";
-import {
-    Button,
-    Text,
-    Content,
-    Container,
-    List,
-    ListItem,
-    Body,
-    Footer,
-    FooterTab,
-} from "native-base";
-
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import FirebaseContext from "../../context/firebase/firebaseContext";
-const productoMock = {
-    nombre: 'asads',
-    imagen: 'asd',
-    categoria: 'asdas',
-    descripcion: 'asas',
-    precio: 98
-}
-
-export default ({ navigation }) => {
-    const [item, setItem] = useState(productoMock)
+import React, { useEffect, useState } from "react";
+import { View, Image, TextInput, StyleSheet, Button, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+export default props => {
+    const [item, setItem] = useState({})
     const [total, setTotal] = useState(0);
     const [cantidad, setCantidad] = useState(1);
     useEffect(() => {
         calcularTotal();
     }, [cantidad]);
-
+    useEffect(() => {
+        setItem(props.route.params.item)
+    }, [])
     const sumar = () => {
         let nuevaCantidad = parseInt(cantidad + 1);
         setCantidad(nuevaCantidad);
     };
-
     const restar = () => {
         if (cantidad > 1) {
             let nuevaCantidad = parseInt(cantidad - 1);
             setCantidad(nuevaCantidad);
         }
     };
-
     const calcularTotal = () => {
         const nuevoTotal = item.precio * cantidad;
         setTotal(nuevoTotal);
     };
-
-    const handleChange = (e) => {
+    const handleChange = e => {
         if (e < 1) {
             setCantidad(1);
         } else {
             setCantidad(e);
         }
     };
-
     return (
-        <Container>
-            <Content>
-                {detallesplato && (
-                    <View>
-                        <Image style={{ height: 200 }} source={{ uri: imagen }} />
-                        <Body>
-                            <Text>Detalles Plato</Text>
-                            <Text>{nombre}</Text>
-                            <Text>{descripcion}</Text>
-                            <Text note>{categoria}</Text>
-                            <Text> $ {precio}</Text>
-                            <Text>{total}</Text>
-                        </Body>
-                    </View>
-                )}
-            </Content>
-            <View>
-                <Button
-                    full
-                    success
-                    onPress={() => {
-                        const orden = {
-                            ...detallesplato,
-                            subtotal: total,
-                            cantidad,
-                        };
+        < View style={styles.container} >
+            <ScrollView>
+                <View style={styles.container}>
+                    <Image style={{ height: 200 }} source={{ uri: "https://picsum.photos/200" }} />
+                    <Text>Detalles</Text>
+                    <Text>{item.nombre}</Text>
+                    <Text>{item.descripcion}</Text>
+                    <Text note>{item.categoria}</Text>
+                    <Text> $ {item.precio}</Text>
+                    <Text>{total}</Text>
+                </View>
+                <View>
+                    <Button
+                        onPress={() => {
+                            // const orden = {
+                            //     ...detallesplato,
+                            //     subtotal: total,
+                            //     cantidad,
+                            // };
 
-                        postOrden(orden);
-                        navigation.navigate("Restaurant");
-                    }}
-                >
-                    <Text>Ordenar</Text>
-                </Button>
-            </View>
-            <Footer>
-                <FooterTab>
-                    <Button dark onPress={restar}>
-                        <Ionicons name="remove" color="#fff" size={30} />
-                    </Button>
-
+                            // postOrden(orden);
+                            props.navigation.navigate("Local",{item,cantidad,total});
+                        }}
+                        title='Ordenar'
+                    />
+                </View>
+                <View>
+                    <Button onPress={restar} title='-' />
                     <TextInput
                         style={styles.input}
                         value={cantidad.toString()}
@@ -103,20 +68,25 @@ export default ({ navigation }) => {
                         keyboardType="numeric"
                         onChangeText={handleChange}
                     />
-                    <Button dark onPress={sumar}>
-                        <FontAwesome name="plus" color="#fff" size={20} />
-                    </Button>
-                </FooterTab>
-            </Footer>
-        </Container>
+                    <Button onPress={sumar} title='+' />
+
+                </View>
+            </ScrollView>
+        </View >
     );
 };
-
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     input: {
         width: "30%",
         textAlign: "center",
         backgroundColor: "#fff",
         color: "#000",
+        margin: 5
     },
 });
